@@ -109,23 +109,23 @@ func (s *Signer) setSigningHashes(meta *kms.KeyMetadata) error {
 	for _, a := range meta.SigningAlgorithms {
 		switch *a {
 		case kms.SigningAlgorithmSpecRsassaPssSha256:
-			pss[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPssSha256
+			s.hashm[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPssSha256
 		case kms.SigningAlgorithmSpecRsassaPssSha384:
-			pss[crypto.SHA384] = kms.SigningAlgorithmSpecRsassaPssSha384
+			s.hashm[crypto.SHA384] = kms.SigningAlgorithmSpecRsassaPssSha384
 		case kms.SigningAlgorithmSpecRsassaPssSha512:
-			pss[crypto.SHA512] = kms.SigningAlgorithmSpecRsassaPssSha512
+			s.hashm[crypto.SHA512] = kms.SigningAlgorithmSpecRsassaPssSha512
 		case kms.SigningAlgorithmSpecRsassaPkcs1V15Sha256:
-			pkcs15[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha256
+			s.hashm[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha256
 		case kms.SigningAlgorithmSpecRsassaPkcs1V15Sha384:
-			pkcs15[crypto.SHA384] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha384
+			s.hashm[crypto.SHA384] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha384
 		case kms.SigningAlgorithmSpecRsassaPkcs1V15Sha512:
-			pkcs15[crypto.SHA512] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha512
+			s.hashm[crypto.SHA512] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha512
 		case kms.SigningAlgorithmSpecEcdsaSha256:
-			ecdsa[crypto.SHA256] = kms.SigningAlgorithmSpecEcdsaSha256
+			s.hashm[crypto.SHA256] = kms.SigningAlgorithmSpecEcdsaSha256
 		case kms.SigningAlgorithmSpecEcdsaSha384:
-			ecdsa[crypto.SHA384] = kms.SigningAlgorithmSpecEcdsaSha384
+			s.hashm[crypto.SHA384] = kms.SigningAlgorithmSpecEcdsaSha384
 		case kms.SigningAlgorithmSpecEcdsaSha512:
-			ecdsa[crypto.SHA512] = kms.SigningAlgorithmSpecEcdsaSha512
+			s.hashm[crypto.SHA512] = kms.SigningAlgorithmSpecEcdsaSha512
 		}
 	}
 
@@ -133,16 +133,7 @@ func (s *Signer) setSigningHashes(meta *kms.KeyMetadata) error {
 	s.psshashm = pss
 
 	// set up the defaults
-	if len(ecdsa) > 0 {
-		s.hashm = ecdsa
-		return nil
-	}
-	if len(pkcs15) > 0 {
-		s.hashm = pkcs15
-		return nil
-	}
-	if len(pss) > 0 {
-		s.hashm = pss
+	if len(s.hashm) > 0 {
 		return nil
 	}
 
