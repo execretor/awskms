@@ -1,4 +1,4 @@
-module github.com/lstoll/awskms
+module github.com/execretor/awskms
 
 go 1.13
 
