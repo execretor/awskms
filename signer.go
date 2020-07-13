@@ -105,6 +105,7 @@ func (s *Signer) Sign(_ io.Reader, digest []byte, opts crypto.SignerOpts) (signa
 
 func (s *Signer) setSigningHashes(meta *kms.KeyMetadata) error {
 	pss := make(map[crypto.Hash]string)
+	s.hashm = make(map[crypto.Hash]string)
 
 	for _, a := range meta.SigningAlgorithms {
 		switch *a {
