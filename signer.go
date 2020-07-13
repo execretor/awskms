@@ -104,16 +104,19 @@ func (s *Signer) Sign(_ io.Reader, digest []byte, opts crypto.SignerOpts) (signa
 }
 
 func (s *Signer) setSigningHashes(meta *kms.KeyMetadata) error {
-	var ecdsa, pss, pkcs15 = make(map[crypto.Hash]string), make(map[crypto.Hash]string), make(map[crypto.Hash]string)
+	var  pss = make(map[crypto.Hash]string), make(map[crypto.Hash]string), make(map[crypto.Hash]string)
 
 	for _, a := range meta.SigningAlgorithms {
 		switch *a {
 		case kms.SigningAlgorithmSpecRsassaPssSha256:
 			s.hashm[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPssSha256
+			pss[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPssSha256
 		case kms.SigningAlgorithmSpecRsassaPssSha384:
 			s.hashm[crypto.SHA384] = kms.SigningAlgorithmSpecRsassaPssSha384
+			pss[crypto.SHA384] = kms.SigningAlgorithmSpecRsassaPssSha384
 		case kms.SigningAlgorithmSpecRsassaPssSha512:
 			s.hashm[crypto.SHA512] = kms.SigningAlgorithmSpecRsassaPssSha512
+			pss[crypto.SHA512] = kms.SigningAlgorithmSpecRsassaPssSha512
 		case kms.SigningAlgorithmSpecRsassaPkcs1V15Sha256:
 			s.hashm[crypto.SHA256] = kms.SigningAlgorithmSpecRsassaPkcs1V15Sha256
 		case kms.SigningAlgorithmSpecRsassaPkcs1V15Sha384:
